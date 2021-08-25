@@ -7,7 +7,7 @@ public class MergeSort {
         mergeSort(intArray, 0, intArray.length);
 
         for (int i = 0; i < intArray.length; i++) {
-            System.out.println(intArray[i]);
+            System.out.print(intArray[i] + " ");
         }
     }
 
