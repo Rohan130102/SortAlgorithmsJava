@@ -1,49 +1,64 @@
 
 public class MergeSort {
 
-    public static void main(String[] args) {
-        int[] intArray = { 20, 35, -15, 7, 55, 1, -22 };
+	public static void mergeSort(int[] inputArray) {
+		int inputArrayLength = inputArray.length;
+		if (inputArrayLength < 2) {
+			return;
+		}
+		int mid = inputArrayLength / 2;
+		int[] leftArray = new int[mid];
+		int[] rightArray = new int[inputArrayLength - mid];
+		for (int i = 0; i < mid; i++) {
+			leftArray[i] = inputArray[i];
+		}
+		for (int i = mid; i < inputArrayLength; i++) {
+			rightArray[i - mid] = inputArray[i];
+		}
 
-        mergeSort(intArray, 0, intArray.length);
+		mergeSort(leftArray);
+		mergeSort(rightArray);
+		merge(leftArray, rightArray, inputArray); //merge left and right array into the input array
+	}
 
-        for (int i = 0; i < intArray.length; i++) {
-            System.out.print(intArray[i] + " ");
-        }
-    }
+	public static void merge(int[] leftArray, int[] rightArray, int[] inputArray) {
 
-    // { 20, 35, -15, 7, 55, 1, -22 }
-    public static void mergeSort(int[] input, int start, int end) {
+		int leftArrayIndex = 0;
+		int rightArrayIndex = 0;
+		int inputArrayIndex = 0;
+		
+		while(leftArrayIndex < leftArray.length  &&  rightArrayIndex < rightArray.length) {
+			if(leftArray[leftArrayIndex] <= rightArray[rightArrayIndex]) {
+				inputArray[inputArrayIndex] = leftArray[leftArrayIndex];
+				leftArrayIndex++;
+				inputArrayIndex++;
+			}else {
+				inputArray[inputArrayIndex] = rightArray[rightArrayIndex];
+				rightArrayIndex++;
+				inputArrayIndex++;
+			}
+		}
+		
+		while(leftArrayIndex < leftArray.length) {
+			inputArray[inputArrayIndex] = leftArray[leftArrayIndex];
+			leftArrayIndex++;
+			inputArrayIndex++;
+		}
+		
+		while(rightArrayIndex < rightArray.length) {
+			inputArray[inputArrayIndex] = rightArray[rightArrayIndex];
+			rightArrayIndex++;
+			inputArrayIndex++;
+		}
+	}
 
-        if (end - start < 2) {
-            return;
-        }
-
-        int mid = (start + end) / 2;
-        mergeSort(input, start, mid);
-        mergeSort(input, mid, end);
-        merge(input, start, mid, end);
-    }
-
-    // { 20, 35, -15, 7, 55, 1, -22 }
-    public static void merge(int[] input, int start, int mid, int end) {
-
-        if (input[mid - 1] <= input[mid]) {
-            return;
-        }
-
-        int i = start;
-        int j = mid;
-        int tempIndex = 0;
-
-        int[] temp = new int[end - start];
-        while (i < mid && j < end) {
-            temp[tempIndex++] = input[i] <= input[j] ? input[i++] : input[j++];
-        }
-
-        System.arraycopy(input, i, input, start + tempIndex, mid - i);
-        System.arraycopy(temp, 0, input, start, tempIndex);
-
-
-    }
-
+	public static void main(String[] args) {
+		int[] a = { 10, 20, 30, 4, 5, 8, 6, 49, 16 };
+		
+		mergeSort(a);
+		
+		for(int i : a) {
+			System.out.print(i + " ");
+		}
+	}
 }
